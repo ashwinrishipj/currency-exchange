@@ -8,9 +8,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@EnableJpaRepositories("com.ashwin.orkestra.currencyConverter.repository")
-@EntityScan("com.ashwin.orkestra.currencyConverter.model")
 public class CurrencyConverterApplication {
 
 	public static void main(String[] args) {
