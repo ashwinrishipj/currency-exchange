@@ -2,9 +2,9 @@ package com.ashwin.orkestra.currencyConverter.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,17 +22,24 @@ import com.ashwin.orkestra.currencyConverter.model.Currency;
  */
 public interface CurrencyController {
 	/**
-	 * Validates the UserCredential credentials for the user.
+	 * Fetches the currency list for the given user Id.
 	 * 
-	 * @param userData which is of {@link Map} containing emailId and password.
-	 * @throws JSONException if the login Credentials is {@code null} or empty.
-	 * @return {@code -1} if it is not a valid emailId, {@code 0} if it is invalid
-	 *         password and {@code >0} if it is valid login.
+	 * @param id of int to fetch the currency.
+	 * @throws JSONException if the Currency is {@code null} or empty.
+	 * @return returns {#link Currency} list for the given userId.
 	 */
+	@GetMapping("/get/{id}")
+	Currency fetchById(@PathVariable("id") int id);
 
-	@GetMapping("/getAll")
-	List<Currency> fetchAll();
-
-	@GetMapping("/getById")
-	Optional<Currency> findById();
+	/**
+	 * updates a new Currency to an existing array of String for the user. This
+	 * updates can be of type : insert, modify and delete.
+	 * 
+	 * @param userData which is of {@link Map} containing userId and currency
+	 *                 String.
+	 * @throws JSONException if the currency is {@code null} or empty.
+	 * @return List of {@Link Currency} after updating.
+	 */
+	@PostMapping("/update")
+	Currency update(@RequestBody Map<String, Object> userData);
 }

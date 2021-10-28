@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ashwin.orkestra.currencyConverter.model.UserCredential;
 import com.ashwin.orkestra.currencyConverter.service.DataBaseConnection;
 import com.ashwin.orkestra.currencyConverter.service.LoginService;
-import com.ashwin.orkestra.currencyConverter.service.RegisterService;
 
 /**
  * <p>

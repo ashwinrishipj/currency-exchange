@@ -1,7 +1,5 @@
 package com.ashwin.orkestra.currencyConverter.service;
 
-import java.sql.SQLException;
-
 import org.springframework.stereotype.Service;
 
 import com.ashwin.orkestra.currencyConverter.model.UserCredential;

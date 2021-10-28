@@ -1,7 +1,6 @@
 package com.ashwin.orkestra.currencyConverter.controller.Impl;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,24 +8,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ashwin.orkestra.currencyConverter.controller.CurrencyController;
 import com.ashwin.orkestra.currencyConverter.model.Currency;
-import com.ashwin.orkestra.currencyConverter.service.CurrencyService;
+import com.ashwin.orkestra.currencyConverter.service.CurrencyFetchService;
+import com.ashwin.orkestra.currencyConverter.service.CurrencyUpdateService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class CurrencyControllerImpl implements CurrencyController {
 
 	@Autowired
-	private CurrencyService currencyService;
+	private CurrencyFetchService currencyFetchService;
+
+	@Autowired
+	private CurrencyUpdateService currencyUpdateService;
 
 	@Override
-	public List<Currency> fetchAll() {
-		System.out.println("inside fetch:");
-		return currencyService.findAll();
+	public Currency fetchById(int id) {
+		return currencyFetchService.findById(id);
 	}
 
 	@Override
-	public Optional<Currency> findById() {
-		return currencyService.findByIdCurrencies();
+	public Currency update(Map<String, Object> userData) {
+		return currencyUpdateService.insert(userData);
 	}
-
 }

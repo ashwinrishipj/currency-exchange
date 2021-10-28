@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ashwin.orkestra.currencyConverter.controller.RegisterController;
 import com.ashwin.orkestra.currencyConverter.model.UserCredential;
 import com.ashwin.orkestra.currencyConverter.model.Impl.UserCredentialImpl;
-import com.ashwin.orkestra.currencyConverter.service.LoginService;
 import com.ashwin.orkestra.currencyConverter.service.RegisterService;
 
 /**

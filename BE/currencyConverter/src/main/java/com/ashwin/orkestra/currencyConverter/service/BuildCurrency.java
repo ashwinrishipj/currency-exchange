@@ -1,15 +1,13 @@
 package com.ashwin.orkestra.currencyConverter.service;
 
-import java.util.List;
-import java.util.Optional;
+import java.sql.ResultSet;
 
 import org.springframework.stereotype.Service;
 
 import com.ashwin.orkestra.currencyConverter.model.Currency;
 
 @Service
-public interface CurrencyService {
-	List<Currency> findAll();
+public interface BuildCurrency {
 
-	Optional<Currency> findByIdCurrencies();
+	public Currency buildCurrency(ResultSet result);
 }

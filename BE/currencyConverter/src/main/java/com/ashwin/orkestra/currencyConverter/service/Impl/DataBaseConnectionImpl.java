@@ -7,7 +7,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.ashwin.orkestra.currencyConverter.service.DataBaseConnection;
-import com.ashwin.orkestra.currencyConverter.service.LoginService;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
