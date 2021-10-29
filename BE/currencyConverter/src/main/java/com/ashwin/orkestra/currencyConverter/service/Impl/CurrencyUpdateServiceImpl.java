@@ -52,12 +52,14 @@ public class CurrencyUpdateServiceImpl implements CurrencyUpdateService {
 			result = statement.executeQuery();
 			if (result.next()) {
 				currency = buildCurrency.buildCurrency(result);
+				connection.close();
 			} else {
 				throw new Error("SQL exception");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return currency;
 	}
 }

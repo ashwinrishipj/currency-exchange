@@ -69,6 +69,7 @@ public class LoginServiceImpl implements LoginService {
 				statement.setString(1, userCredential.getEmailId());
 				statement.setString(2, userCredential.getPassword());
 				executeQuery();
+				connection.close();
 				if (count > 0) {
 					return count;
 				} else {

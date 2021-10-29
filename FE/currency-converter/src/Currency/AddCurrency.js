@@ -184,11 +184,11 @@ function AddCurrency(props) {
                             </> : ""}
                     </ul>
                 </> : " "}
-                <div className="row col-2 mt-4 center-button">
+               
                     <Button className="btn btn-sm" onClick={() => addCurrency()}>{typeOfCurrencyUpdate} Currency </Button>
-                </div>
+              
                 {typeOfCurrencyUpdate === "add" ? <>
-                    <h4 className="text-warning mt-4">Table: </h4>
+                    <h4 className="text-success mt-4">Table: </h4>
                     {updated ? <DisplayCurrency /> : ""}
                 </> : ""}
 

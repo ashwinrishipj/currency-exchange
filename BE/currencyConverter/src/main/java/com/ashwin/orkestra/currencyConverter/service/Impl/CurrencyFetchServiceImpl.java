@@ -40,9 +40,10 @@ public class CurrencyFetchServiceImpl implements CurrencyFetchService {
 			result = statement.executeQuery();
 			if (result.next()) {
 				currency = buildCurrency.buildCurrency(result);
+				connection.close();
 				return currency;
 			} else {
-				throw new Error("DB fetch error:");
+				throw new Error();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

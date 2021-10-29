@@ -63,6 +63,7 @@ public class RegisterServiceImpl implements RegisterService {
 				statement.setString(1, userCredential.getEmailId());
 				statement.setString(2, userCredential.getPassword());
 				result = statement.executeQuery();
+				connection.close();
 				if (result.next()) {
 					count = result.getInt(1);
 					return count;

@@ -10,8 +10,8 @@ export default function SideBar() {
     return (
         <>
             <Tab.Container className="position-sticky" id="list-group-tabs-example" defaultActiveKey="#link1">
-                <Row>
-                    <Accordion defaultActiveKey="0">
+                <Row  >
+                    <Accordion bg="dark" defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>DashBoard</Accordion.Header>
                             <Accordion.Body>
