@@ -39,7 +39,7 @@ function DashBoardNavigation() {
               <Route
                 path="/"
                 component={() => (
-                  <AddCurrency />
+                  <AddCurrency type="add" />
                 )}
               />)) ||
             (navigateTo === "manageCurrency" && (

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Card, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
-import { LockScreenValidate } from '../Helpers/Fetch';
-import { pageRoute } from "../redux/actions";
+import { withRouter } from "react-router-dom";
+import { pageRoute, userId } from "../redux/actions";
 
-const LockScreen = () => {
+function LockScreen() {
     const [password, setpassword] = useState('');
     const [error, seterror] = useState('');
     const [disabled, setdisabled] = useState(true);
@@ -31,27 +31,46 @@ const LockScreen = () => {
     const unlockUser = (e) => {
         e.preventDefault();
 
-        let userId = JSON.parse(localStorage.getItem('userToken'));
-        userId = userId.validateUser.userId;
+        let emailId = JSON.parse(localStorage.getItem('emailId'));
+        let requestBody = JSON.stringify({
+            emailId: `${emailId}`,
+            password: `${password}`,
+        });
 
-        let requestBody = {
-            query: ` 
-                query{
-                lockScreenValidation(userId:"${userId}",password:"${password}")
-                }
-              `,
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: requestBody,
         };
 
-        LockScreenValidate(requestBody).then((response) => {
-            if (response === true) {
-                dispatch(routePage("dashBoard"))
-            }
-            else {
-                response === (null || undefined)
-                    ? setalert('Server is down!. We are working on it.')
-                    : setalert(response);
-            }
-        });
+
+        fetch("http://localhost:8080/validate", requestOptions)
+            .then((response) => {
+
+                setdisabled(true);
+                return response.json();
+            })
+            .then((data) => {
+                console.log("data:" + data);
+
+                if (data > 0) {
+                    dispatch(pageRoute("dashBoard"));
+                    dispatch(userId(data));
+                }
+                else if (data === -1) {
+                    setalert("Invalid email Id. Please enter your valid Id");
+                }
+                else if (data === 0) {
+                    setalert("Invalid password. Please re check your password");
+                } else {
+                    setalert("Server Error!. So sorry for inconvenience");
+                }
+            })
+            .catch((error) => {
+                setalert(error);
+            });
     };
     return (
         <>
@@ -108,5 +127,4 @@ const LockScreen = () => {
         </>
     );
 };
-
-export default LockScreen;
+export default withRouter(LockScreen);

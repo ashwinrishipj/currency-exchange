@@ -81,7 +81,7 @@ function LoginForm() {
   const onSubmitSignIn = (e) => {
     e.preventDefault();
     localStorage.setItem("emailId", emailId);
-
+    
     let requestBody = JSON.stringify({
       emailId: `${emailId}`,
       password: `${password}`,

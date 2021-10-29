@@ -1,10 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import LockScreen from "../Login/LockScreen";
 import Login from "../Login"
 import { useSelector } from "react-redux";
 import Dashboard from "../Dashboard";
+import LockScreen from "../Login/LockScreen";
 
 export const Routing = () => {
   const route = useSelector(state => state.pageRoute);

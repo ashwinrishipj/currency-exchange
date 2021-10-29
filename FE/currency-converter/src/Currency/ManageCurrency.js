@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { userId, currencyList } from "../redux/actions";
+import AddCurrency from "./AddCurrency";
 import DisplayCurrency from "./DisplayCurrency";
 
 function ManageCurrency() {
@@ -21,11 +22,11 @@ function ManageCurrency() {
             })
             .then((data) => {
                 dispatch(currencyList(JSON.stringify(data.currencies)));
-                setUpdatetable(true);
             })
             .catch((error) => {
                 console.log("alert");
             });
+            setUpdatetable(true);
     }
 
     useEffect(() => {
@@ -38,16 +39,16 @@ function ManageCurrency() {
                 <div className="col-md-5">
                     <h6 className="text-warning">
                         <div class="mycontent-left">
-                            update Currency
+                            <AddCurrency type="update" />
                         </div>
                     </h6>
                 </div>
                 <div className="col-md-5">
-                    <h6 className="text-warning">delete Currency </h6>
+                    <h6 className="text-warning"><AddCurrency type="delete" /> </h6>
                 </div>
             </div>
 
-            <h6 className="text-warning">Updated Table: </h6>
+            <h4 className="mt-4 text-warning">Updated Table: </h4>
             {updateTable ? <DisplayCurrency /> : ""}
 
         </div>

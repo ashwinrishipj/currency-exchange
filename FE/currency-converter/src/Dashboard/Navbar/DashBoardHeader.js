@@ -22,11 +22,9 @@ function DashBoardHeader() {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-
-
             </Nav>
             <Form className="d-flex">
-              <Nav.Link name="lockScreen" className="text-danger fa fa-lock fa-1x ml-2">LockScreen</Nav.Link>
+              {/* <Nav.Link name="lockScreen" className="text-danger fa fa-lock fa-1x ml-2">LockScreen</Nav.Link> */}
               <Nav.Link name="logout" onClick={() => dispatch(pageRoute("logout"))} className="text-danger fa fa-sign-out fa-1x ml-2">Logout </Nav.Link>
 
             </Form>

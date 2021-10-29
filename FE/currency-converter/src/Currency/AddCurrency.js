@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { countryList } from "../Helpers/CountryList";
-import { Button, FloatingLabel } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { userId, currencyList } from "../redux/actions";
 import DisplayCurrency from "./DisplayCurrency";
@@ -13,19 +13,41 @@ function AddCurrency(props) {
     const [defaultCountryValue, setdefaultCountryValue] = useState("");
     const [toCountry, setToCountry] = useState("");
     const [updated, setUpdated] = useState(false);
-    const [alert, setAlert] = useState(false);
-    const typeOfOperation = props;
-    var currency;
+    const [Alert, setAlert] = useState("");
+    const [inputPosition, setInputPosition] = useState();
+    const typeOfCurrencyUpdate = props.type;
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const user = useSelector((state) => state.userId);
-    const currenciesList = useSelector((state) => state.currencyList);
+    var currenciesList = useSelector((state) => state.currencyList);
     const dispatch = useDispatch();
+    var currency, countries, parsedCurrenciesList;
 
     const requestOptions = {
         method: "GET",
     };
 
+    const modal = () => {
+        return (
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Table Updated Successfully!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
     const fetchData = async => {
+
         fetch(`http://localhost:8080/get/${user}`, requestOptions)
             .then((response) => {
                 return response.json();
@@ -35,16 +57,18 @@ function AddCurrency(props) {
                 setUpdated(true);
             })
             .catch((error) => {
-                console.log("alert");
+                console.log("Alert");
             });
     }
+
 
     useEffect(() => {
         fetchData();
     }, [])
 
     const getCountrySuggestionList = (e) => {
-        var countries = Object.keys(countryList);
+        setAlert("");
+        countries = Object.keys(countryList);
         var countrySuggestionsList = countries.filter(countrySuggestion => {
             return countrySuggestion.toLowerCase().includes(e.target.value.toLowerCase());
         });
@@ -54,12 +78,14 @@ function AddCurrency(props) {
     }
 
     const validateEscape = (e) => {
+        setAlert("");
         if (e.keyCode === 27) {
             setisCountrySuggested(false);
         }
     }
 
     const selectedCountry = (data) => {
+        setAlert("");
         setAlert(false);
         setisCountrySuggested(false);
         setToCountry(data);
@@ -89,51 +115,83 @@ function AddCurrency(props) {
             .then((data) => {
                 dispatch(currencyList(JSON.stringify(data.currencies)));
                 setUpdated(true);
+                setShow(true);
             })
             .catch((error) => {
-                alert(error);
+                Alert(error);
             });
+    }
+
+    const inputNumber = (e) => {
+        e.preventDefault();
+        setInputPosition(e.target.value)
     }
 
     const addCurrency = () => {
         currency = JSON.parse(currenciesList);
 
-        if (currency.indexOf(toCountry) === -1 && toCountry !== "" || null || undefined) {
-            setUpdated(false);
-            currency.push(toCountry)
-            console.log("currencies:" + currency);
-            insert();
-        } else { setAlert(true) };
+        if (typeOfCurrencyUpdate == "update") {
+
+            if (inputPosition > 0 && (currency.indexOf(toCountry) === -1)) {
+                currency[inputPosition - 1] = toCountry;
+                insert();
+            } else {
+                setAlert("The number must be > 0 and duplicate courrency not allowed");
+            }
+        } else if (typeOfCurrencyUpdate == "delete") {
+            if (inputPosition > 0) {
+                currency.splice(inputPosition-1, 1);
+                insert();
+            } else {
+                setAlert("The number must be > 0");
+            }
+        } else {
+            if (currency.indexOf(toCountry) === -1) {
+                setUpdated(false);
+                currency.push(toCountry)
+                console.log("currencies:" + currency);
+                insert();
+            } else { setAlert("cannot Add duplicate Items") };
+        }
     }
 
     return (
         <div>
+            {modal()}
             <div className="text-center">
-                <h4 className="mb-4 text-warning"> Add currency  </h4>
+                <h4 className="mb-4 text-warning"> {typeOfCurrencyUpdate} currency  </h4>
 
-                <div className="alert-style">
-                    {alert ? <NegativeAlert content={"cannot add duplicate items or empty items"} /> : ""}
+                <div className="Alert-style">
+                    {Alert.length > 0 ? <NegativeAlert content={"cannot add duplicate items or empty items"} /> : ""}
                 </div>
-                <button type="button" className="btn btn-sm btn-warning mb-1 " data-bs-toggle="tooltip" data-bs-placement="top" title="Press Escape to clear list">
-                    note
-                </button>
+                {typeOfCurrencyUpdate !== "add" ?
+                    <input type="number" onChange={(e) => inputNumber(e)} placeholder="enter the position to modify" />
 
-                <input autoComplete="nope" onKeyDown={(e) => validateEscape(e)} className="form-control" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." className="text-align-center" />
-                <ul className="list-group scroll-auto home-list" id="myList">
-                    {isCountrySuggestied ?
-                        <>
-                            {countrySuggestions.map((data, key) => {
-                                return (
-                                    <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} className="list-group-item">{data}</li>
-                                )
-                            })}
-                        </> : ""}
-                </ul>
+                    : <button type="button" className="btn btn-sm btn-warning mb-1 " data-bs-toggle="tooltip" data-bs-placement="top" title="Press Escape to clear list">
+                        note
+                    </button>}
 
-                <Button className="mt-4 btn btn-sm" onClick={() => addCurrency()}>Add Currency </Button>
+                {typeOfCurrencyUpdate !== "delete" ? <>
+                    <input autoComplete="nope" onKeyDown={(e) => validateEscape(e)} className="form-control" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." className="text-align-center" />
+                    <ul className="list-group scroll-auto home-list" id="myList">
+                        {isCountrySuggestied ?
+                            <>
+                                {countrySuggestions.map((data, key) => {
+                                    return (
+                                        <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} className="list-group-item">{data}</li>
+                                    )
+                                })}
+                            </> : ""}
+                    </ul>
+                </> : " "}
+                <div className="row col-2 mt-4 center-button">
+                    <Button className="btn btn-sm" onClick={() => addCurrency()}>{typeOfCurrencyUpdate} Currency </Button>
+                </div>
+                {typeOfCurrencyUpdate === "add" ? <>
+                    <h4 className="text-warning mt-4">Table: </h4>
+                    {updated ? <DisplayCurrency /> : ""}
+                </> : ""}
 
-                <h4 className="mt-4 mt-4 text-warning">User Table </h4>
-                {updated ? <DisplayCurrency /> : ""}
             </div>
         </div>
     )
