@@ -1,0 +1,23 @@
+.profile-flex-css {
+  position: -webkit-sticky;
+}
+
+.text {
+  color: red !important;
+}
+
+.margin-top-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.align-center {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-items: center !important;
+  align-content: center !important;
+  margin: auto 0 !important;
+}

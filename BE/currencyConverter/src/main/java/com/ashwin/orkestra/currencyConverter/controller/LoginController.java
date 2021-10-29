@@ -2,8 +2,10 @@ package com.ashwin.orkestra.currencyConverter.controller;
 
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
  * 
  * @author Ashwin Rishi
  */
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 public interface LoginController {
 	/**
 	 * Validates the UserCredential credentials for the user.
