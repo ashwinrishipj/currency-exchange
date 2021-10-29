@@ -1,7 +1,9 @@
 .profile-flex-css {
   position: -webkit-sticky;
 }
-
+.header-bg {
+  background-color: midnightblue !important;
+}
 .text {
   color: red !important;
 }

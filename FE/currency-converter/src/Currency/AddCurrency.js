@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { countryList } from "../Helpers/CountryList";
-import { Button } from "react-bootstrap";
+import { Button, FloatingLabel } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { userId, currencyList } from "../redux/actions";
 import DisplayCurrency from "./DisplayCurrency";
+import NegativeAlert from "../Alerts/NegativeAlert";
+import "./currency.css";
 
-function AddCurrency() {
+function AddCurrency(props) {
     const [isCountrySuggestied, setisCountrySuggested] = useState(false);
     const [countrySuggestions, setcountrySuggestions] = useState([]);
     const [defaultCountryValue, setdefaultCountryValue] = useState("");
     const [toCountry, setToCountry] = useState("");
+    const [updated, setUpdated] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const typeOfOperation = props;
+    var currency;
 
     const user = useSelector((state) => state.userId);
     const currenciesList = useSelector((state) => state.currencyList);
@@ -19,25 +25,25 @@ function AddCurrency() {
         method: "GET",
     };
 
-    useEffect(() => {
-        const fetchData = async => {
-            fetch(`http://localhost:8080/get/${user}`, requestOptions)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    dispatch(currencyList(data.currencies));
-                })
-                .catch((error) => {
-                    console.log("alert");
-                });
-        }
+    const fetchData = async => {
+        fetch(`http://localhost:8080/get/${user}`, requestOptions)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                dispatch(currencyList(JSON.stringify(data.currencies)));
+                setUpdated(true);
+            })
+            .catch((error) => {
+                console.log("alert");
+            });
+    }
 
+    useEffect(() => {
         fetchData();
     }, [])
 
     const getCountrySuggestionList = (e) => {
-
         var countries = Object.keys(countryList);
         var countrySuggestionsList = countries.filter(countrySuggestion => {
             return countrySuggestion.toLowerCase().includes(e.target.value.toLowerCase());
@@ -54,21 +60,20 @@ function AddCurrency() {
     }
 
     const selectedCountry = (data) => {
+        setAlert(false);
         setisCountrySuggested(false);
         setToCountry(data);
         setdefaultCountryValue(data);
     }
 
-    const addCurrency = () => {
-        const currencies = currenciesList;
-        currencies.push(toCountry);
+    const insert = () => {
+        currency = Array.from(currency);
+        const body = JSON.stringify({
+            "userId": parseFloat(user),
+            "currencies": currency
+        })
 
-        console.log("currencies:" + currencies);
-        const body = {
-            "userId": `${user}`,
-            "currencies": JSON.stringify[`${currencies}`]
-        }
-
+        console.log("body:" + body);
         let request = {
             method: "POST",
             headers: {
@@ -82,21 +87,38 @@ function AddCurrency() {
                 return response.json();
             })
             .then((data) => {
-                dispatch(currencyList(data.currencies));
+                dispatch(currencyList(JSON.stringify(data.currencies)));
+                setUpdated(true);
             })
             .catch((error) => {
                 alert(error);
             });
     }
 
+    const addCurrency = () => {
+        currency = JSON.parse(currenciesList);
+
+        if (currency.indexOf(toCountry) === -1 && toCountry !== "" || null || undefined) {
+            setUpdated(false);
+            currency.push(toCountry)
+            console.log("currencies:" + currency);
+            insert();
+        } else { setAlert(true) };
+    }
+
     return (
         <div>
             <div className="text-center">
-                <h2 className="mb-4"> Add currency </h2>
-                <button type="button" className="btn btn-sm btn-warning mr-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Press Escape to clear list">
+                <h4 className="mb-4 text-warning"> Add currency  </h4>
+
+                <div className="alert-style">
+                    {alert ? <NegativeAlert content={"cannot add duplicate items or empty items"} /> : ""}
+                </div>
+                <button type="button" className="btn btn-sm btn-warning mb-1 " data-bs-toggle="tooltip" data-bs-placement="top" title="Press Escape to clear list">
                     note
                 </button>
-                <input className="ml-4" autoComplete="nope" onKeyDown={(e) => validateEscape(e)} className="form-control" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." className="text-align-center" />
+
+                <input autoComplete="nope" onKeyDown={(e) => validateEscape(e)} className="form-control" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." className="text-align-center" />
                 <ul className="list-group scroll-auto home-list" id="myList">
                     {isCountrySuggestied ?
                         <>
@@ -107,10 +129,11 @@ function AddCurrency() {
                             })}
                         </> : ""}
                 </ul>
-                <Button className="mt-4" onClick={() => addCurrency()}>Add Currency </Button>
 
-                <h2>Table </h2>
-                <DisplayCurrency />
+                <Button className="mt-4 btn btn-sm" onClick={() => addCurrency()}>Add Currency </Button>
+
+                <h4 className="mt-4 mt-4 text-warning">User Table </h4>
+                {updated ? <DisplayCurrency /> : ""}
             </div>
         </div>
     )

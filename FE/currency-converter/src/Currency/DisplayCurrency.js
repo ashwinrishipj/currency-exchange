@@ -5,10 +5,11 @@ import { currencyList } from "../redux/actions";
 
 function DisplayCurrency() {
 
-    const data = useSelector((state) => state.currencyList);
+    var data = useSelector((state) => state.currencyList);
+    data = JSON.parse(data);
 
     return (
-        <div>
+        <div className="container text-center col-lg-10">
             <Table style={{ backgroundColor: "whitesmoke" }}>
                 <thead>
                     <tr>

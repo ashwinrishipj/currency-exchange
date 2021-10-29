@@ -1,47 +1,55 @@
-import React, { useState } from "react";
-import { Table } from "react-bootstrap"
+import React, { useState, useEffect } from "react";
+import { Table } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { userId, currencyList } from "../redux/actions";
+import DisplayCurrency from "./DisplayCurrency";
 
 function ManageCurrency() {
-    const [updateTable, setUpdatetable] = useState(true);
+    const [updateTable, setUpdatetable] = useState(false);
 
-    const data =
-    {
-        "currencyId": 1,
-        "userId": 4,
-        "currencies": [
-            "TOP",
-            "USD",
-            "EUR"
-        ]
+    const user = useSelector((state) => state.userId);
+    const dispatch = useDispatch();
+
+    const requestOptions = {
+        method: "GET",
+    };
+
+    const fetchData = async => {
+        fetch(`http://localhost:8080/get/${user}`, requestOptions)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                dispatch(currencyList(JSON.stringify(data.currencies)));
+                setUpdatetable(true);
+            })
+            .catch((error) => {
+                console.log("alert");
+            });
     }
 
-    return (
-        <div>
-            <Table style={{ backgroundColor: "whitesmoke" }}>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Currencies</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {updateTable ?
-                        data.currencies.map((data, index) => {
-                            return (
-                                <tr index={index}>
-                                    <td>
-                                        {index + 1}
-                                    </td>
-                                    <td>
-                                        {data}
-                                    </td>
-                                </tr>
-                            )
-                        })
+    useEffect(() => {
+        fetchData();
+    }, [])
 
-                        : ""}
-                </tbody>
-            </Table>
+    return (
+        <div className="text-center container">
+            <div className="row">
+                <div className="col-md-5">
+                    <h6 className="text-warning">
+                        <div class="mycontent-left">
+                            update Currency
+                        </div>
+                    </h6>
+                </div>
+                <div className="col-md-5">
+                    <h6 className="text-warning">delete Currency </h6>
+                </div>
+            </div>
+
+            <h6 className="text-warning">Updated Table: </h6>
+            {updateTable ? <DisplayCurrency /> : ""}
+
         </div>
     )
 }
