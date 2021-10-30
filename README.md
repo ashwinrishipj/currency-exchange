@@ -70,7 +70,7 @@ The main goal here is to assess your abilities to build a modern app from scratc
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-1.  React Install Instructions:
+1.  React Install Instructions: 
 
 
 
@@ -97,7 +97,29 @@ You are done! Now you can start editing the React project in the new folder that
 
 
 
+    Download the zip or clone the Git repository.
+    
+    Unzip the zip file (if you downloaded one)
+    
+    Open Command Prompt and Change directory (cd) to folder containing pom.xml
+    
+    Open Eclipse
+        File -> Import -> Existing Maven Project -> Navigate to the folder where you unzipped the zip
+        Select the right project
+    
+    Choose the Spring Boot Application file (search for @SpringBootApplication)
+    
+    Right Click on the file and Run as Java Application
+    
+    
+    You are all Set
 
+3. Database Sql Query Execute:
+   
+   download the sql file https://github.com/ashwinrishipj/currency-exchange/blob/main/BE/SqlSyntax.sql
+   
+   execute the lines of code: Database Name as: orkestra.
+   
 
 
 FINAL RESULTS:
