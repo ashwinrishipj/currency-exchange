@@ -63,3 +63,75 @@ The main goal here is to assess your abilities to build a modern app from scratc
 > * It is fine if you cannot complete all the mentioned features. Focus on delivering as much as you can in the most reliable and scalable way possible.
 > * Try to break the app into different sections and submit the respective code in separate commits.
 > * Your code is expected to be clean, readable and follow industry coding conventions.
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1.  React Install Instructions:
+
+
+
+    Open your terminal and then type
+
+    $ git clone https://github.com/ashwinrishipj/currency-exchange
+
+    This clones the repo
+
+    cd into the new folder and type
+
+    $ npm install
+
+    This installs the required dependencies
+
+    To run the React project.
+    $ npm start
+
+You are done! Now you can start editing the React project in the new folder that's created.
+
+
+
+2. Spring Boot Install Instructions:
+
+
+
+
+
+
+FINAL RESULTS:
+
+Please provide documentation on how to setup the environment from scratch
+1. ![image](https://user-images.githubusercontent.com/32618311/139492048-f7c9021e-fec3-42d0-883d-852b7d3f2adb.png)
+2. ![image](https://user-images.githubusercontent.com/32618311/139492108-d2d7f821-5699-4812-aa40-dfb9caad4671.png)
+3. Add currency:
+
+
+![image](https://user-images.githubusercontent.com/32618311/139492246-9d89dfe2-6202-49fb-8485-95d2adb4dd09.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492265-cb8f3a72-0f2f-4cf9-85c1-9255cd38d265.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492276-a63c9409-ee8b-4d3b-948e-bb7dac35432a.png)
+
+4. Manage Currencies
+
+![image](https://user-images.githubusercontent.com/32618311/139492310-5fdc44fc-f3ae-4daa-982f-1142c3f8ae6d.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492341-0080feca-8746-44a8-b170-437021fd5860.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492348-5889d9d9-3529-4e9c-adc3-1032189a79dc.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492362-fe801907-c897-4992-8565-23cda5adcea0.png)
+
+5. Delete Currencies
+
+
+![image](https://user-images.githubusercontent.com/32618311/139492409-fab501e2-c20b-43e7-95b7-28447309b60e.png)
+
+![image](https://user-images.githubusercontent.com/32618311/139492421-50326277-620e-458c-8272-2c2fc9403d11.png)
+
+
+
+
+
