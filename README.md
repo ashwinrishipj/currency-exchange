@@ -125,8 +125,11 @@ You are done! Now you can start editing the React project in the new folder that
 FINAL RESULTS:
 
 Please provide documentation on how to setup the environment from scratch
-1. ![image](https://user-images.githubusercontent.com/32618311/139492048-f7c9021e-fec3-42d0-883d-852b7d3f2adb.png)
-2. ![image](https://user-images.githubusercontent.com/32618311/139492108-d2d7f821-5699-4812-aa40-dfb9caad4671.png)
+1. 
+![image](https://user-images.githubusercontent.com/32618311/139492048-f7c9021e-fec3-42d0-883d-852b7d3f2adb.png)
+2.
+ ![image](https://user-images.githubusercontent.com/32618311/139492108-d2d7f821-5699-4812-aa40-dfb9caad4671.png)
+
 3. Add currency:
 
 
